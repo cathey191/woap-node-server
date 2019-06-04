@@ -114,11 +114,23 @@ function eventData (woapLocations) {
     location.push({ company: woapLocations.Venue.title, address1: woapLocations.Venue.address1, suburb: woapLocations.Venue.suburb, website: woapLocations.Venue.website })
     for (var j = 0; j < woapLocations.Event.length; j++) {
       var option = []
-      if (woapLocations.Event[j].platform_burger === '1') {
-        option.push({ event: 'burger', title: woapLocations.Event[j].name_of_burger, price: removeSymbol(woapLocations.Event[j].burger_price), description: woapLocations.Event[j].description_of_burger, protein: woapLocations.Event[j].what_is_the_main_protein_of_your_burger })
+      if (woapLocations.Event[j].name_of_burger) {
+        option.push({ 
+          event: 'burger', 
+          title: woapLocations.Event[j].name_of_burger, 
+          price: removeSymbol(woapLocations.Event[j].burger_price), 
+          description: woapLocations.Event[j].burger_description, 
+          protein: woapLocations.Event[j].what_is_the_main_protein_of_your_burger 
+        })
       }
       if (woapLocations.Event[j].platform_cocktail === '1') {
-        option.push({ event: 'cocktail', title: woapLocations.Event[j].name_of_cocktail_tapas_match, price: removeSymbol(woapLocations.Event[j].price_of_cocktail_tapas_match), description: woapLocations.Event[j].description_of_cocktail_and_regionally_inspired_tapas_match, spirit: woapLocations.Event[j].type_of_spirit })
+        option.push({ 
+          event: 'cocktail', 
+          title: woapLocations.Event[j].name_of_cocktail_tapas_match, 
+          price: removeSymbol(woapLocations.Event[j].price_of_mocktail_tapas_match), 
+          description: woapLocations.Event[j].description_of_cocktail_and_regionally_inspired_tapas_match, 
+          spirit: woapLocations.Event[j].main_type_of_spirit_in_your_cocktail 
+      })
       }
       if (woapLocations.Event[j].platform_dine === '1' && woapLocations.Event[j].how_many_additional_courses_will_you_be_serving.length === 1) {
         option.push({ event: 'dine', total_dishes: woapLocations.Event[j].how_many_additional_courses_will_you_be_serving, price: removeSymbol(woapLocations.Event[j].price_of_set_menu), dishes: dineData(woapLocations.Event[j]) })
@@ -154,8 +166,8 @@ function getBurger (woapLocations) {
     location.push({ company: woapLocations.Venue.title, address1: woapLocations.Venue.address1, suburb: woapLocations.Venue.suburb, website: woapLocations.Venue.website })
     for (var j = 0; j < woapLocations.Event.length; j++) {
       var option = []
-      if (woapLocations.Event[j].platform_burger === '1') {
-        option.push({ event: 'burger', title: woapLocations.Event[j].name_of_burger, price: removeSymbol(woapLocations.Event[j].burger_price), description: woapLocations.Event[j].description_of_burger, protein: woapLocations.Event[j].what_is_the_main_protein_of_your_burger })
+      if (woapLocations.Event[j].name_of_burger) {
+        option.push({ event: 'burger', title: woapLocations.Event[j].name_of_burger, price: removeSymbol(woapLocations.Event[j].burger_price), description: woapLocations.Event[j].burger_description, protein: woapLocations.Event[j].what_is_the_main_protein_of_your_burger })
       }
     }
     location.push(option)
@@ -171,10 +183,18 @@ function getCocktail (woapLocations) {
     location.push({ company: woapLocations.Venue.title, address1: woapLocations.Venue.address1, suburb: woapLocations.Venue.suburb, website: woapLocations.Venue.website })
     for (var j = 0; j < woapLocations.Event.length; j++) {
       var option = []
-      if (woapLocations.Event[j].platform_cocktail === '1') {
-        option.push({ event: 'cocktail', title: woapLocations.Event[j].name_of_cocktail_tapas_match, price: removeSymbol(woapLocations.Event[j].price_of_cocktail_tapas_match), description: woapLocations.Event[j].description_of_cocktail_and_regionally_inspired_tapas_match, spirit: woapLocations.Event[j].type_of_spirit })
+      if (woapLocations.Event[j].name_of_cocktail_tapas_match) {
+        let cocktail = { 
+          event: 'cocktail', 
+          title: woapLocations.Event[j].name_of_cocktail_tapas_match, 
+          price: removeSymbol(woapLocations.Event[j].price_of_mocktail_tapas_match), 
+          description: woapLocations.Event[j].description_of_cocktail_and_regionally_inspired_tapas_match, 
+          spirit: woapLocations.Event[j].main_type_of_spirit_in_your_cocktail 
+        }
+        option.push(cocktail)
       }
     }
+    console.log(location)
     location.push(option)
   } else {
     return false
