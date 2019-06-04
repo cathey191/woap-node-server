@@ -199,7 +199,6 @@ function dineData (data) {
 function removeFalse (array) {
   var newArray = []
   for (var i = 0; i < array.length; i++) {
-    console.log(newArray)
     if (typeof array[i] === 'object' && array[i].length >= 1) {
       newArray.push(array[i])
     }
