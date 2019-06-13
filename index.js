@@ -97,13 +97,31 @@ app.get('/cocktail/type:type', function (req, res) {
   var woapData = []
   for (var i = 0; i < woap.venues.length; i++) {
     for (var j = 0; j < woap.venues[i].Event.length; j++) {
-      if (woap.venues[i].Event[j].type_of_spirit === type) {
+      if (woap.venues[i].Event[j].main_type_of_spirit_in_your_cocktail === type) {
         woapData.push(getCocktail(woap.venues[i]))
         break
       }
     }
     if (woap.venues.length === i + 1) {
       res.json(removeFalse(woapData))
+    }
+  }
+})
+
+
+app.get('/cocktail/types', function (req, res) {
+  var cocktailTypes = []
+  for (var i = 0; i < woap.venues.length; i++) {
+    let venue = woap.venues[i]
+    for (var j = 0; j < woap.venues[i].Event.length; j++) {
+      let currentCocktailType = venue.Event[j].main_type_of_spirit_in_your_cocktail
+      if (currentCocktailType && !cocktailTypes.includes(currentCocktailType)) {
+        cocktailTypes.push(currentCocktailType)
+      }
+    }
+    if (woap.venues.length === i + 1) {
+      console.log('passing')
+      res.json(cocktailTypes)
     }
   }
 })
@@ -149,8 +167,12 @@ function getDine (woapLocations) {
     location.push({ company: woapLocations.Venue.title, address1: woapLocations.Venue.address1, suburb: woapLocations.Venue.suburb, website: woapLocations.Venue.website })
     for (var j = 0; j < woapLocations.Event.length; j++) {
       var option = []
-      if (woapLocations.Event[j].platform_dine === '1' && woapLocations.Event[j].how_many_additional_courses_will_you_be_serving.length === 1) {
-        option.push({ event: 'dine', total_dishes: woapLocations.Event[j].how_many_additional_courses_will_you_be_serving, price: removeSymbol(woapLocations.Event[j].price_of_set_menu), dishes: dineData(woapLocations.Event[j]) })
+      if (woapLocations.Event[j].event_type_id === "29") {
+        option.push({
+          event: 'dine',
+          total_dishes: woapLocations.Event[j].how_many_additional_courses_will_you_be_serving,
+          price: woapLocations.Event[j].price_of_set_menu,
+          dishes: dineData(woapLocations.Event[j]) })
       }
     }
     location.push(option)
